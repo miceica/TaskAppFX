@@ -30,14 +30,6 @@ public class User extends ModeloBase {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Rol getRol() {
         return rol;
     }
@@ -51,12 +43,6 @@ public class User extends ModeloBase {
         return "user";
     }
 
-    @Override
-    protected Object createObjectFromResultSet(ResultSet resultSet) throws SQLException {
-        User user = new User();
-        user.iduser = resultSet.getInt("iduser");
-        return null;
-    }
 
     @Override
     public String toString() {
@@ -64,20 +50,21 @@ public class User extends ModeloBase {
                 "iduser=" + iduser +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", rol_id=" + rol +
+                ", rol=" + rol +
                 '}';
     }
 
     public User login(String username, String password) {
         User user = new User();
-        Connection connection = user.getConnection();
-
-        String sql = "SELECT iduser,username,rol_id,description FROM user LEFT JOIN rol ON user.rol_id = rol.rol_id WHERE username=? and password=?";
+        Connection conn = user.getConnection();
+        String sql = "select iduser,username,rol.idrol,description from " +
+                "user left join rol on user.idrol=rol.idrol " +
+                "where username=? and password=?";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, username);
+            pst.setString(2, password);
+            ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()) {
                 user.iduser = resultSet.getInt("iduser");
                 user.username = resultSet.getString("username");
@@ -89,11 +76,10 @@ public class User extends ModeloBase {
             } else {
                 return null;
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 }
-
-

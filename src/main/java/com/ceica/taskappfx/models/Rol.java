@@ -1,9 +1,6 @@
 package com.ceica.taskappfx.models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class Rol extends ModeloBase{
+public class Rol extends ModeloBase {
     private int idrol;
     private String description;
 
@@ -31,10 +28,7 @@ public class Rol extends ModeloBase{
         return "rol";
     }
 
-    @Override
-    protected Object createObjectFromResultSet(ResultSet resultSet) throws SQLException {
-        return null;
-    }
+
 
     @Override
     public String toString() {
