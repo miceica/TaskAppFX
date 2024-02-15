@@ -1,6 +1,7 @@
 package com.ceica.taskappfx.controller;
 
 
+import com.ceica.taskappfx.models.Rol;
 import com.ceica.taskappfx.models.Task;
 import com.ceica.taskappfx.models.User;
 
@@ -47,6 +48,16 @@ public class TaskController {
         return task.getAll();
     }
 
+    public static List<User> getAllUser() {
+        User user = new User();
+        return user.getAll();
+    }
+
+    public List<Rol> getAllRol() {
+        Rol rol = new Rol();
+        return rol.getAll();
+    }
+
     public boolean completeTask(int idtask) {
         Task task = new Task();
         return task.actualizar("status=? where idtask=?", true, idtask);
@@ -55,4 +66,6 @@ public class TaskController {
     public boolean isAdmin() {
         return userLogged.getRol().getIdrol() == 2 ? true : false;
     }
+
+
 }

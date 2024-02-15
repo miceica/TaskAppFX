@@ -1,9 +1,8 @@
 package com.ceica.taskappfx.models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User extends ModeloBase {
     private int iduser;
@@ -79,7 +78,30 @@ public class User extends ModeloBase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public List<User> getAll() {
+        List<User> userList = new ArrayList<>();
+        User user1 = new User();
+        Connection conn = user1.getConnection();
+        String sql = "SELECT iduser,username,user.idrol,description FROM user inner join rol on user.idrol = rol.idrol";
+        try {
+            Statement st = conn.createStatement();
+            ResultSet resultSet = st.executeQuery(sql);
 
+            while (resultSet.next()) {
+                User user = new User();
+                user.setIduser(resultSet.getInt("iduser"));
+                user.setUsername(resultSet.getString("username"));
+                Rol rol = new Rol();
+                rol.setIdrol(resultSet.getInt("user.idrol"));
+                rol.setDescription(resultSet.getString("description"));
+                user.setRol(rol);
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
     }
 }

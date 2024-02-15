@@ -1,12 +1,8 @@
 package com.ceica.taskappfx.controllerViews;
 
-import com.ceica.taskappfx.controller.TaskController;
-
-public class UserController implements IControllerView {
-    private TaskController taskController;
-
+public class UserController extends ControllerView {
     @Override
-    public void setTaskController(TaskController taskController) {
-        this.taskController = taskController;
+    public void cargaInicial() {
+
     }
 }
