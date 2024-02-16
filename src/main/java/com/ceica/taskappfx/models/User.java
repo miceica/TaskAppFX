@@ -80,6 +80,14 @@ public class User extends ModeloBase {
         }
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public List<User> getAll() {
         List<User> userList = new ArrayList<>();
         User user1 = new User();

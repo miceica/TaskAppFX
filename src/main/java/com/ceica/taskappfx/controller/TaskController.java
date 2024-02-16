@@ -67,5 +67,9 @@ public class TaskController {
         return userLogged.getRol().getIdrol() == 2 ? true : false;
     }
 
+    public boolean updateUser(User user) {
+        return user.actualizar("password=?,idrol=? where iduser=?", user.getPassword(), user.getRol().getIdrol(), user.getIduser());
+    }
+
 
 }

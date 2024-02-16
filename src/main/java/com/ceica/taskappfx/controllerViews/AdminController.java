@@ -36,6 +36,10 @@ public class AdminController extends ControllerView {
     protected Button btnAddUser;
     @FXML
     protected Label lblMsg;
+    @FXML
+    protected Button btnAdd;
+    @FXML
+    protected Button btnUpdate;
 
 
     private ObservableList<User> userObservableList = FXCollections.observableArrayList();
@@ -55,6 +59,13 @@ public class AdminController extends ControllerView {
                 return null;
             }
         });
+        tblUser.setOnMouseClicked(e->{
+            User user=tblUser.getSelectionModel().getSelectedItem();
+            txtName.setText(user.getUsername());
+            comboRol.setValue(user.getRol());
+            btnAddUser.setVisible(false);
+            btnUpdate.setVisible(true);
+        });
     }
 
     public AdminController() {
@@ -73,11 +84,29 @@ public class AdminController extends ControllerView {
         if(txtPassword.getText().equals(txtRepeatPassword.getText())){
             taskController.createUser(txtName.getText(),txtPassword.getText(),comboRol.getSelectionModel().getSelectedItem().getIdrol());
             List<User> userList = TaskController.getAllUser();
-            userObservableList.removeAll();
+            userObservableList.clear();
             userObservableList.addAll(userList);
             tblUser.refresh();
         }else{
             lblMsg.setText("Password must be equals");
         }
+    }
+
+    public void btnUpdateUser(ActionEvent actionEvent) {
+        if(txtPassword.getText().equals(txtRepeatPassword.getText())){
+            User user=tblUser.getSelectionModel().getSelectedItem();
+            user.setPassword(txtPassword.getText());
+            user.setRol(comboRol.getSelectionModel().getSelectedItem());
+            taskController.updateUser(user);
+            List<User> userList=taskController.getAllUser();
+            userObservableList.clear();
+            userObservableList.addAll(userList);
+            tblUser.refresh();
+
+        }else{
+            lblMsg.setText("Passwords must to be equals");
+        }
+        btnAddUser.setVisible(true);
+        btnUpdate.setVisible(false);
     }
 }
